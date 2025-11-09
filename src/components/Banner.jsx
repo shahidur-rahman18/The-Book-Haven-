@@ -29,13 +29,13 @@ const Banner = () => {
   ];
 
   return (
-    <div className="w-full py-10 md:py-12">
+    <div className="relative bg-base-200 w-full py-10 md:py-12">
       <Swiper
         spaceBetween={0}
         slidesPerView={1}
         loop={true}
         modules={[Autoplay, Pagination, Navigation]}
-        autoplay={{ delay: 3000 }}
+        autoplay={{ delay: 5000 }}
         pagination={{ clickable: true }}
         onSlideChange={(swiper) => setActiveIndex(swiper.realIndex)}
       >
@@ -53,22 +53,22 @@ const Banner = () => {
                 <img
                   src={slide.img}
                   alt={slide.title}
-                  className="rounded-xl w-full md:w-[50%] h-auto max-h-[400px] object-cover"
+                  className="rounded-xl w-full md:w-[50%] p-4 h-auto max-h-[400px] object-cover"
                 />
               </motion.div>
 
               {/* Right: Text */}
               <motion.div
                 key={`${index}-text-${activeIndex}`} // 👈 Forces re-render for motion
-                className="flex-1 flex flex-col justify-center items-start space-y-4"
+                className="flex-1 flex flex-col justify-center items-start space-y-4 mb-5"
                 initial={{ x: 80, opacity: 0 }}
                 animate={{ x: 0, opacity: 1 }}
                 transition={{ duration: 0.7, delay: 0.2 }}
               >
-                <h2 className="text-3xl lg:text-4xl font-bold text-[#A3485A]">
+                <h2 className="text-2xl lg:text-4xl font-bold text-[#A3485A]">
                   {slide.title}
                 </h2>
-                <p className="text-gray-600 text-sm md:text-base leading-relaxed">
+                <p className="text-gray-600 text-xs md:text-sm  leading-relaxed">
                   {slide.desc}
                 </p>
               </motion.div>
@@ -76,6 +76,11 @@ const Banner = () => {
           </SwiperSlide>
         ))}
       </Swiper>
+
+     
+
+
+
     </div>
   );
 };

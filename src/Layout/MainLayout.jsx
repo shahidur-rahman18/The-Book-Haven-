@@ -12,7 +12,7 @@ const MainLayout = () => {
 
   const isFullWidth = fullWidthRoutes.includes(location.pathname);
     return (
-      <div className="w-full">
+      <div className="bg-gradient-to-r from-[#f7e9ec] to-[#f2e9ff] w-full">
       {/* Navbar stays inside container */}
       <div className="max-w-7xl mx-auto">
         <Navbar />
@@ -22,7 +22,7 @@ const MainLayout = () => {
       {isFullWidth ? (
         <Outlet /> // Full-width (Banner will stretch edge to edge)
       ) : (
-        <div className="max-w-7xl mx-auto mt-4">
+        <div className="max-w-7xl mx-auto mt-4 ">
           <Outlet />
         </div>
       )}

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { FaDownload, FaGear, FaUser } from "react-icons/fa6";
 import { GoHomeFill } from "react-icons/go";
 import { ImBoxAdd } from "react-icons/im";
@@ -9,8 +9,18 @@ import { SiBookstack } from "react-icons/si";
 import { Link, NavLink } from "react-router";
 
 const Navbar = () => {
+  const [theme, setTheme] = useState(localStorage.getItem("theme") || "light");
+  useEffect(() => {
+    const html = document.querySelector("html");
+    html.setAttribute("data-theme", theme);
+    localStorage.setItem("theme", theme);
+  }, [theme]);
+
+  const handleTheme = (checked) => {
+    setTheme(checked ? "dark" : "light");
+  };
   return (
-    <div className="navbar py-0 min-h-0 z-1 shadow-sm rounded-full glass-card max-w-7xl ">
+    <div className="bg-gradient-to-r from-[#f7e9ec] to-[#f2e9ff] navbar py-0 min-h-0 z-1 shadow-sm rounded-full glass-card max-w-7xl ">
       {/* dropdown + navTitle  */}
       <div className="navbar-start ">
         {/* this is for three line menu for small & medium devices  */}
@@ -91,7 +101,7 @@ const Navbar = () => {
 
       <div className="navbar-end gap-3">
         {/* {user ? ( */}
-        <div className="dropdown dropdown-end z-50">
+        <div className="dropdown dropdown-end absolute z-50">
           <div
             tabIndex={0}
             role="button"
@@ -134,7 +144,7 @@ const Navbar = () => {
               </Link>
             </li>
             <input
-              /* onChange={(e) => handleTheme(e.target.checked)} */
+              onChange={(e) => handleTheme(e.target.checked)}
               type="checkbox"
               defaultChecked={localStorage.getItem("theme") === "dark"}
               className="toggle"
