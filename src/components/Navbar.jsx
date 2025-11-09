@@ -1,17 +1,16 @@
-
-import React from 'react';
-import { FaDownload, FaGear, FaUser } from 'react-icons/fa6';
-import { GoHomeFill } from 'react-icons/go';
-import { ImBoxAdd } from 'react-icons/im';
-import { IoLogoModelS } from 'react-icons/io';
-import { IoBookmarkSharp, IoBookSharp, IoLogOut } from 'react-icons/io5';
-import { LuRotate3D } from 'react-icons/lu';
-import { SiBookstack } from 'react-icons/si';
-import { Link, NavLink } from 'react-router';
+import React from "react";
+import { FaDownload, FaGear, FaUser } from "react-icons/fa6";
+import { GoHomeFill } from "react-icons/go";
+import { ImBoxAdd } from "react-icons/im";
+import { IoLogoModelS } from "react-icons/io";
+import { IoBookmarkSharp, IoBookSharp, IoLogOut } from "react-icons/io5";
+import { LuRotate3D } from "react-icons/lu";
+import { SiBookstack } from "react-icons/si";
+import { Link, NavLink } from "react-router";
 
 const Navbar = () => {
-    return (
-       <div className="navbar py-0 min-h-0 z-1 shadow-sm rounded-full glass-card max-w-7xl ">
+  return (
+    <div className="navbar py-0 min-h-0 z-1 shadow-sm rounded-full glass-card max-w-7xl ">
       {/* dropdown + navTitle  */}
       <div className="navbar-start ">
         {/* this is for three line menu for small & medium devices  */}
@@ -39,13 +38,13 @@ const Navbar = () => {
           >
             <li>
               <NavLink to={"/"}>
-                <GoHomeFill />
+                <GoHomeFill color='#A3485A' />
                 Home
               </NavLink>
             </li>
             <li>
               <NavLink to={"/all-books"}>
-               <SiBookstack /> All Books
+                <SiBookstack color='#A3485A' /> All Books
               </NavLink>
             </li>
           </ul>
@@ -57,27 +56,28 @@ const Navbar = () => {
           to={"/"}
           className="flex items-center gap-2 text-[11px]   md:text-lg  lg:text-2xl font-bold"
         >
-          <IoBookSharp /> Book Haven
+          <IoBookSharp color="#842A3B" />
+          Book Haven
         </Link>
       </div>
-       
-       {/* medium + lg device menu section  */}
+
+      {/* medium + lg device menu section  */}
       <div className="navbar-center hidden md:flex">
         <ul className="menu menu-horizontal px-1 font-bold gap-10">
           <li>
             <NavLink to={"/"}>
-              <GoHomeFill />
+              <GoHomeFill color="#A3485A" />
               Home
             </NavLink>
           </li>
           <li>
             <NavLink to={"/all-books"}>
-             <SiBookstack /> All Books
+              <SiBookstack color="#A3485A" /> All Books
             </NavLink>
           </li>
           <li>
             <NavLink to={"/add-book"}>
-              <ImBoxAdd /> Add Book
+              <ImBoxAdd color="#A3485A" /> Add Book
             </NavLink>
           </li>
           {/* 
@@ -89,76 +89,74 @@ const Navbar = () => {
         </ul>
       </div>
 
-      
       <div className="navbar-end gap-3">
         {/* {user ? ( */}
-          <div className="dropdown dropdown-end z-50">
-            <div
-              tabIndex={0}
-              role="button"
-              className="btn btn-ghost btn-circle avatar"
-            >
-
-
-              <div className="w-9 border-2 border-gray-300 rounded-full">
-                <img
-                  alt="Tailwind CSS Navbar component"
-                  referrerPolicy="no-referrer"
-                  src={
+        <div className="dropdown dropdown-end z-50">
+          <div
+            tabIndex={0}
+            role="button"
+            className="btn btn-ghost btn-circle avatar"
+          >
+            <div className="w-9 border-2 border-gray-300 rounded-full">
+              <img
+                alt="Tailwind CSS Navbar component"
+                referrerPolicy="no-referrer"
+                src={
                   /*   user.photoURL || */
-                    "https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp"
-                  }
-                />
-              </div>
-              
-            </div>
-            <ul
-              tabIndex="-1"
-              className="menu  menu-sm dropdown-content bg-base-100 rounded-box z-50 mt-3 w-52 p-2 shadow"
-            >
-              <div className=" pb-3 border-b border-b-gray-200">
-                <li className="text-sm font-bold">{/* {user.displayName}  */}Name </li>
-                <li className="text-xs">{/* {user.email} */} email</li>
-              </div>
-              <li className="mt-3">
-                <Link to={"/profile"}>
-                  <FaUser /> Profile
-                </Link>
-              </li>
-              <li>
-                <Link to={"/my-books"}>
-                  <IoBookSharp /> My Books
-                </Link>
-              </li>
-              <li>
-                <Link to={"/my-downloads"}>
-                  <FaDownload /> My Downloads
-                </Link>
-              </li>
-              <input
-                /* onChange={(e) => handleTheme(e.target.checked)} */
-                type="checkbox"
-                defaultChecked={localStorage.getItem("theme") === "dark"}
-                className="toggle"
+                  "https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp"
+                }
               />
-
-              <li>
-                <a>
-                  {" "}
-                  <FaGear /> Settings
-                </a>
-              </li>
-              <li>
-                <button
-                //   onClick={signOutUser}
-                  className="btn btn-xs text-left bg-linear-to-r from-[#662222] to-[#A3485A] text-white"
-                >
-                  <IoLogOut /> Logout
-                </button>
-              </li>
-            </ul>
+            </div>
           </div>
-          
+          <ul
+            tabIndex="-1"
+            className="menu  menu-sm dropdown-content bg-base-100 rounded-box z-50 mt-3 w-52 p-2 shadow"
+          >
+            <div className=" pb-3 border-b border-b-gray-200">
+              <li className="text-sm font-bold">
+                {/* {user.displayName}  */}Name{" "}
+              </li>
+              <li className="text-xs">{/* {user.email} */} email</li>
+            </div>
+            <li className="mt-3">
+              <Link to={"/profile"}>
+                <FaUser color="#A3485A" /> Profile
+              </Link>
+            </li>
+            <li>
+              <Link to={"/my-books"}>
+                <IoBookSharp color="#A3485A" /> My Books
+              </Link>
+            </li>
+            <li>
+              <Link to={"/my-downloads"}>
+                <FaDownload color="#A3485A" /> My Downloads
+              </Link>
+            </li>
+            <input
+              /* onChange={(e) => handleTheme(e.target.checked)} */
+              type="checkbox"
+              defaultChecked={localStorage.getItem("theme") === "dark"}
+              className="toggle"
+            />
+
+            <li>
+              <a>
+                {" "}
+                <FaGear color="#A3485A" /> Settings
+              </a>
+            </li>
+            <li>
+              <button
+                //   onClick={signOutUser}
+                className="btn btn-xs text-left bg-linear-to-r from-[#662222] to-[#A3485A] text-white"
+              >
+                <IoLogOut /> Logout
+              </button>
+            </li>
+          </ul>
+        </div>
+
         {/* ) :  (
           <Link
             to={"/auth/login"}
@@ -169,10 +167,8 @@ const Navbar = () => {
           </Link>
         )}  */}
       </div>
-
-      
     </div>
-    );
+  );
 };
 
 export default Navbar;

@@ -1,20 +1,36 @@
 import React from 'react';
 import Navbar from '../components/Navbar';
-import { Outlet } from 'react-router';
+import { Outlet, useLocation } from 'react-router';
 import Footer from '../components/Footer';
 import { Toaster } from 'react-hot-toast';
 
 const MainLayout = () => {
+   const location = useLocation();
+
+  // Define which routes should have full-width sections
+  const fullWidthRoutes = ["/"]; // home route
+
+  const isFullWidth = fullWidthRoutes.includes(location.pathname);
     return (
-        <div>
+      <div className="w-full">
+      {/* Navbar stays inside container */}
       <div className="max-w-7xl mx-auto">
         <Navbar />
-        <div className="mt-4">
+      </div>
+
+      {/* Outlet - conditional container */}
+      {isFullWidth ? (
+        <Outlet /> // Full-width (Banner will stretch edge to edge)
+      ) : (
+        <div className="max-w-7xl mx-auto mt-4">
           <Outlet />
         </div>
-        <Footer/>
-      </div>
-      <Toaster/>  
+      )}
+
+      {/* Full-width Footer */}
+      <Footer />
+
+      <Toaster />
     </div>
     );
 };
