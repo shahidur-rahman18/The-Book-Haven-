@@ -1,6 +1,8 @@
 import PropagateLoader from "react-spinners/PropagateLoader";
 import useGet from "../hooks/useGet";
 import BookCard from "./BookCard";
+// eslint-disable-next-line no-unused-vars
+import { motion } from "framer-motion";
 
 const AllBooks = () => {
   const { data, loading, error, setUrl, refetch } = useGet("/books");
@@ -21,7 +23,7 @@ const AllBooks = () => {
   if (error) return <p>Error loading data</p>;
   return (
     <div>
-      <div className="text-2xl text-center font-bold"> All Books</div>
+      <div className="text-2xl md:text-4xl text-primary text-center font-bold"> All Books</div>
       <p className=" text-center mb-10 ">Explore Books.</p>
       <form
         onSubmit={handleSearch}
@@ -52,11 +54,16 @@ const AllBooks = () => {
         </button>
       </form>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3 lg:gap-8 mt-5">
+      <motion.div
+        initial={{ y: 80, opacity: 1 }}
+        animate={{ y: 2, opacity: 1 }}
+        transition={{ duration: 0.9, delay: 0.5 }}
+        className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3 lg:gap-8 mt-5"
+      >
         {data.map((book) => (
           <BookCard key={book._id} book={book} />
         ))}
-      </div>
+      </motion.div>
     </div>
   );
 };
