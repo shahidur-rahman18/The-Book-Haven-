@@ -15,9 +15,9 @@ const Hero = () => {
 
           {/* Text Section */}
           <div className="space-y-6">
-            <h1 className="text-5xl font-extrabold leading-tight text-gray-800">
-              The Book <br />
-              <span className="text-primary">Haven</span>
+            <h1 className="text-center text-xl md:text-2xl lg:text-4xl font-extrabold leading-tight text-gray-800">
+              The Book 
+               <span className="text-primary">Haven</span>
             </h1>
 
             <p className="text-gray-600 text-lg max-w-md">
@@ -33,8 +33,11 @@ const Hero = () => {
             </div>
           </div>
 
+        
+
         </div>
       </div>
+      
     </div>
   );
 };
