@@ -2,8 +2,11 @@ import React from "react";
 import { FaStar } from "react-icons/fa6";
 // eslint-disable-next-line no-unused-vars
 import { motion } from "framer-motion";
+import { Link } from "react-router";
 
 const BookCard = ({ book }) => {
+  const {genre, title,_id,price}=book
+   
   return (
     <div className="bg-white p-4 rounded-2xl shadow-sm hover:shadow-md duration-300">
       {/* Book Cover */}
@@ -55,6 +58,7 @@ const BookCard = ({ book }) => {
       </div>
 
       {/* Add to Cart Button */}
+     <Link to={`/book-details/${_id}`} > 
       <motion.button
         initial={{ x: 10, opacity: 0 }}
         animate={{ x: 0, opacity: 1 }}
@@ -63,6 +67,7 @@ const BookCard = ({ book }) => {
       >
         Viw Details
       </motion.button>
+      </Link>
     </div>
   );
 };

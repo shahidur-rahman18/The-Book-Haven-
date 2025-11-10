@@ -14,12 +14,8 @@ const MainLayout = () => {
   return (
     <div
       className="
-        w-full 
         bg-gradient-to-r 
-        from-[#f7e9ec] to-[#f2e9ff] 
-        
-       
-      "
+        from-[#f7e9ec] to-[#f2e9ff] "
     >
       {/* Navbar stays inside container */}
       <div className="max-w-7xl mx-auto">

@@ -9,9 +9,10 @@ import { Swiper, SwiperSlide } from "swiper/react";
 // eslint-disable-next-line no-unused-vars
 import { motion } from "framer-motion";
 import { useRef } from "react";
+import { PropagateLoader } from "react-spinners";
 
 const Home = () => {
-  const { data, loading, error, refetch } = useGet("/books");
+  const { data, loading, error,  } = useGet("/books");
   const swiperRef = useRef(null);
 
   const handleMouseEnter = () => {
@@ -26,7 +27,13 @@ const Home = () => {
     }
   };
 
-  if (loading) return <p>Loading...</p>;
+   if (loading) {
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <PropagateLoader color="#842A3B" size={20} speedMultiplier={1.3} />
+      </div>
+    );
+  }
   if (error) return <p>Error loading data</p>;
 
   return (

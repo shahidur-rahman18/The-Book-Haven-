@@ -5,7 +5,7 @@ import BookCard from "./BookCard";
 import { motion } from "framer-motion";
 
 const AllBooks = () => {
-  const { data, loading, error, setUrl, refetch } = useGet("/books");
+  const { data, loading, error, setUrl,  } = useGet("/books");
   const handleSearch = (e) => {
     e.preventDefault();
     const search_text = e.target.search.value;
