@@ -41,7 +41,7 @@ const BookDetails = () => {
             <img
               src={book.coverImage}
               alt=""
-              className="w-full object-cover rounded-xl shadow-md"
+              className="w-full object-cover rounded-xl "
             />
           </div>
 
@@ -52,16 +52,19 @@ const BookDetails = () => {
             </h1>
 
             {/* Category Badge */}
-            <div className="flex gap-3 ">
-              <div className="badge badge-lg badge-outline btn text-pink-600 border-pink-600 font-medium">
+            <div className="flex flex-col gap-3 ">
+              <div className="badge badge-lg badge-outline btn text-amber-950 border-amber-800 font-medium">
                 {book.genre} 
               </div>
-              <div className="badge badge-lg badge-outline btn text-pink-600 border-pink-600 font-medium">
+              <div className="badge badge-lg badge-outline btn text-primary border-primary font-medium">
                 Rating: {book.rating}
               </div>
             </div>
 
             {/* Description */}
+            <p className="text-primary font-bold leading-relaxed text-lg md:text-xl">
+              $ {book.price}
+            </p>
             <p className="text-gray-600 leading-relaxed text-sm md:text-lg">
               {book.summary}
             </p>
@@ -70,9 +73,9 @@ const BookDetails = () => {
             <div className="flex flex-col md:flex-row gap-3 mt-6">
               <Link
                 /*  to={`/update-model/${model._id}`} */
-                className="btn btn-primary rounded-full bg-linear-to-r from-pink-500 to-red-600 text-white border-0 hover:from-pink-600 hover:to-red-700"
+                className="btn btn-primary rounded-full bg-linear-to-r from-[#662222] to-[#A3485A] text-white border-0 hover:from-pink-600 hover:to-red-700"
               >
-                Update Model
+                Update Book
               </Link>
               <button
                 onClick={handleDownload}
@@ -83,7 +86,7 @@ const BookDetails = () => {
 
               <button
                 onClick={handleDelete}
-                className="btn btn-outline rounded-full border-gray-300 hover:border-pink-500 hover:text-pink-600"
+                className="btn btn-outline rounded-full border-gray-300 hover:border-secondary hover:text-primary"
               >
                 Delete
               </button>

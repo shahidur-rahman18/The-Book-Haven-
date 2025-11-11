@@ -1,14 +1,49 @@
 import React, { use } from "react";
 import { AuthContext } from "../context/AuthContext";
 import { useNavigate } from "react-router";
+import usePost from "../hooks/usePost";
+import toast from "react-hot-toast";
+import { PropagateLoader } from "react-spinners";
 
 const AddBook = () => {
   const { user } = use(AuthContext);
   const navigate = useNavigate();
+  const { loading, error, response, postData } = usePost();
 
-  const handleSubmit = (e) => {
+  
+  const handleSubmit = async (e) => {
     e.preventDefault();
+
+    const formData = {
+      title: e.target.title.value,
+      author_name: e.target.author_name.value,
+      rating: e.target.rating.value,
+      genre: e.target.genre.value,
+      summary: e.target.summary.value,
+      coverImage: e.target.coverImage.value,
+      userEmail:user?.email,
+    };
+
+    const result = await postData("/books", formData);
+
+    if (result) {
+      toast.success("Successfully added!");
+      navigate("/all-books");
+    }
   };
+
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <PropagateLoader size={20} speedMultiplier={1.3} />
+      </div>
+    );
+  }
+
+  if (error) return <p>Error loading data</p>;
+  if (response) return <p>Book Added Successfully!</p>;
+
+ 
   return (
     <div className="card border border-gray-200 bg-base-100 w-full max-w-md mx-auto shadow-2xl rounded-2xl">
       <div className="card-body p-6 relative">
@@ -18,10 +53,10 @@ const AddBook = () => {
         <form onSubmit={handleSubmit} className="space-y-4">
           {/* Name Field */}
           <div>
-            <label className="label font-medium">Name</label>
+            <label className="label font-medium">Tiltle</label>
             <input
               type="text"
-              name="name"
+              name="title"
               required
               className="input w-full rounded-full focus:border-0 focus:outline-gray-200"
               placeholder="Enter book name"
@@ -56,7 +91,7 @@ const AddBook = () => {
             <label className="label font-medium">Category</label>
             <select
               defaultValue={""}
-              name="category"
+              name="genre"
               required
               className="select w-full rounded-full focus:border-0 focus:outline-gray-200"
             >
@@ -80,7 +115,7 @@ const AddBook = () => {
           <div>
             <label className="label font-medium">Description</label>
             <textarea
-              name="description"
+              name="summary"
               required
               rows="3"
               className="textarea w-full rounded-2xl focus:border-0 focus:outline-gray-200 h-[250px]"
@@ -93,7 +128,7 @@ const AddBook = () => {
             <label className="label font-medium">Thumbnail URL</label>
             <input
               type="url"
-              name="thumbnail"
+              name="coverImage"
               required
               className="input w-full rounded-full focus:border-0 focus:outline-gray-200"
               placeholder="https://example.com/image.jpg"
