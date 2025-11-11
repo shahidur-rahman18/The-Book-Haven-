@@ -10,7 +10,6 @@ const AddBook = () => {
   const navigate = useNavigate();
   const { loading, error, response, postData } = usePost();
 
-  
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -21,7 +20,8 @@ const AddBook = () => {
       genre: e.target.genre.value,
       summary: e.target.summary.value,
       coverImage: e.target.coverImage.value,
-      userEmail:user?.email,
+      userEmail: user?.email,
+      price: e.target.price.value,
     };
 
     const result = await postData("/books", formData);
@@ -43,7 +43,6 @@ const AddBook = () => {
   if (error) return <p>Error loading data</p>;
   if (response) return <p>Book Added Successfully!</p>;
 
- 
   return (
     <div className="card border border-gray-200 bg-base-100 w-full max-w-md mx-auto shadow-2xl rounded-2xl">
       <div className="card-body p-6 relative">
@@ -53,7 +52,7 @@ const AddBook = () => {
         <form onSubmit={handleSubmit} className="space-y-4">
           {/* Name Field */}
           <div>
-            <label className="label font-medium">Tiltle</label>
+            <label className="label font-medium">Title</label>
             <input
               type="text"
               name="title"
@@ -83,6 +82,19 @@ const AddBook = () => {
               step="0.1"
               className="input w-full rounded-full focus:border-0 focus:outline-gray-200"
               placeholder="Enter rating from 1 to 5"
+            />
+          </div>
+          <div>
+            <label className="label font-medium">Price</label>
+            <input
+              type="number"
+              name="price"
+              required
+              min="100"
+              max="500"
+              step="0.1"
+              className="input w-full rounded-full focus:border-0 focus:outline-gray-200"
+              placeholder="Enter price from 100 to 500"
             />
           </div>
 

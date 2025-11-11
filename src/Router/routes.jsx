@@ -11,7 +11,6 @@ import MyBooks from "../Pages/MyBooks";
 import MyDownloads from "../Pages/MyDownloads";
 import UpdateBook from "../Pages/UpdateBook";
 
-
 export const router = createBrowserRouter([
   {
     path: "/",
@@ -44,11 +43,13 @@ export const router = createBrowserRouter([
       },
       {
         path: "/my-downloads",
-        element:<MyDownloads></MyDownloads> ,
+        element: <MyDownloads></MyDownloads>,
       },
       {
         path: "/update-book/:id",
-        element:<UpdateBook></UpdateBook>,
+        element: <UpdateBook></UpdateBook>,
+        loader: ({ params }) =>
+          fetch(`http://localhost:3000/books/${params.id}`),
       },
 
       {

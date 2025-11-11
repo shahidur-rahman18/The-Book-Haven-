@@ -18,7 +18,6 @@ const BookDetails = () => {
     })
       .then((res) => res.json()) /* add */
       .then((data) => {
-        console.log(data);
         setBook(data.result);
         setLoading(false);
       });
@@ -72,7 +71,7 @@ const BookDetails = () => {
             {/* Optional: Action Buttons */}
             <div className="flex flex-col md:flex-row gap-3 mt-6">
               <Link
-                /*  to={`/update-model/${model._id}`} */
+                 to={`/update-book/${book._id}`}
                 className="btn btn-primary rounded-full bg-linear-to-r from-[#662222] to-[#A3485A] text-white border-0 hover:from-pink-600 hover:to-red-700"
               >
                 Update Book
