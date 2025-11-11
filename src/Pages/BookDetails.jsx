@@ -16,7 +16,7 @@ const BookDetails = () => {
         authorization: `Bearer ${user.accessToken}`,
       }, */
     })
-      .then((res) => res.json())
+      .then((res) => res.json()) /* add */
       .then((data) => {
         console.log(data);
         setBook(data.result);
