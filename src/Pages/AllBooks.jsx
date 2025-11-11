@@ -1,15 +1,16 @@
 import PropagateLoader from "react-spinners/PropagateLoader";
 import useGet from "../hooks/useGet";
 import BookCard from "./BookCard";
+import { Link } from "react-router";
 // eslint-disable-next-line no-unused-vars
 import { motion } from "framer-motion";
+import TableBook from "../components/TableBook";
 
 const AllBooks = () => {
-  const { data, loading, error, setUrl,  } = useGet("/books");
+  const { data, loading, error, setUrl } = useGet("/books");
   const handleSearch = (e) => {
     e.preventDefault();
     const search_text = e.target.search.value;
-    // console.log(search_text)
     setUrl(`/search?search=${encodeURIComponent(search_text)}`);
   };
 
@@ -58,11 +59,63 @@ const AllBooks = () => {
         initial={{ y: 80, opacity: 1 }}
         animate={{ y: 2, opacity: 1 }}
         transition={{ duration: 0.9, delay: 0.5 }}
-        className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3 lg:gap-8 mt-5"
+        className="overflow-x-auto mt-5"
       >
-        {data.map((book) => (
-          <BookCard key={book._id} book={book} />
-        ))}
+         {/* Desktop Table */}
+        <div className="hidden md:block">
+          <table className="table table-zebra w-full">
+            <thead>
+              <tr>
+                <th>Book Details</th>
+                <th>Author</th>
+                <th>Genre</th>
+                <th>Price</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {data.map((book) => (
+                <TableBook key={book._id} book={book} tableFormat={true} />
+              ))}
+            </tbody>
+          </table>
+        </div>
+          {/* Mobile Cards */}
+        <div className="md:hidden space-y-4">
+          {data.map((book) => (
+            <div key={book._id} className="card bg-base-100 shadow-xl border">
+              <div className="card-body">
+                <div className="flex items-center gap-4">
+                  <div className="avatar">
+                    <div className="mask bg-base-100 rounded-xl h-16 w-16">
+                      <img
+                        src={book.coverImage || "/default-book-cover.jpg"}
+                        alt={book.title}
+                        className="object-cover"
+                      />
+                    </div>
+                  </div>
+                  <div className="flex-1">
+                    <h3 className="card-title text-lg">{book.title}</h3>
+                    <p className="text-sm text-gray-600">by {book.author || "Unknown Author"}</p>
+                    <div className="flex justify-between items-center mt-2">
+                      <span className="badge badge-outline">{book.genre || "General"}</span>
+                      <span className="font-bold">${book.price || "N/A"}</span>
+                    </div>
+                  </div>
+                </div>
+                <div className="card-actions justify-end mt-3">
+                  <Link
+                    to={`/book-details/${book._id}`}
+                    className="btn btn-primary btn-sm"
+                  >
+                    Details
+                  </Link>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
       </motion.div>
     </div>
   );
