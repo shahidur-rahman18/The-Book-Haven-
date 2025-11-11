@@ -8,8 +8,8 @@ import Profile from "../Pages/Profile";
 import AddBook from "../Pages/AddBook";
 import BookDetails from "../Pages/BookDetails";
 import MyBooks from "../Pages/MyBooks";
-import MyDownloads from "../Pages/MyDownloads";
 import UpdateBook from "../Pages/UpdateBook";
+import PrivateRoute from "./PrivateRoute";
 
 export const router = createBrowserRouter([
   {
@@ -27,27 +27,49 @@ export const router = createBrowserRouter([
 
       {
         path: "/profile",
-        element: <Profile></Profile>,
+        element: (
+          <PrivateRoute>
+            {" "}
+            <Profile></Profile>
+          </PrivateRoute>
+        ),
       },
       {
         path: "/add-book",
-        element: <AddBook></AddBook>,
+        element: (
+          <PrivateRoute>
+            {" "}
+            <AddBook></AddBook>
+          </PrivateRoute>
+        ),
       },
       {
         path: "/book-details/:id",
-        element: <BookDetails></BookDetails>,
+        element: (
+          <PrivateRoute>
+            {" "}
+            <BookDetails></BookDetails>{" "}
+          </PrivateRoute>
+        ),
       },
       {
         path: "/my-books",
-        element: <MyBooks></MyBooks>,
+        element: (
+          <PrivateRoute>
+            {" "}
+            <MyBooks></MyBooks>
+          </PrivateRoute>
+        ),
       },
-      {
-        path: "/my-downloads",
-        element: <MyDownloads></MyDownloads>,
-      },
+      
       {
         path: "/update-book/:id",
-        element: <UpdateBook></UpdateBook>,
+        element: (
+          <PrivateRoute>
+            {" "}
+            <UpdateBook></UpdateBook>
+          </PrivateRoute>
+        ),
         loader: ({ params }) =>
           fetch(`http://localhost:3000/books/${params.id}`),
       },

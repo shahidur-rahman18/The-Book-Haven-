@@ -144,11 +144,7 @@ const Navbar = () => {
                   <IoBookSharp color="#A3485A" /> My Books
                 </Link>
               </li>
-              <li>
-                <Link to={"/my-downloads"}>
-                  <FaDownload color="#A3485A" /> My Downloads
-                </Link>
-              </li>
+
               <input
                 onChange={(e) => handleTheme(e.target.checked)}
                 type="checkbox"

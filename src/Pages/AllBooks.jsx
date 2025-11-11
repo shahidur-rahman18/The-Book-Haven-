@@ -5,6 +5,8 @@ import { Link } from "react-router";
 // eslint-disable-next-line no-unused-vars
 import { motion } from "framer-motion";
 import TableBook from "../components/TableBook";
+import { FcRating } from "react-icons/fc";
+import { FaStar } from "react-icons/fa6";
 
 const AllBooks = () => {
   const { data, loading, error, setUrl } = useGet("/books");
@@ -62,8 +64,8 @@ const AllBooks = () => {
         className="overflow-x-auto mt-5"
       >
          {/* Desktop Table */}
-        <div className="hidden md:block">
-          <table className="table table-zebra w-full">
+        <div className="hidden bg-base-100 rounded-2xl shadow-2xl md:block">
+          <table className="table rounded-full table-zebra w-full">
             <thead>
               <tr>
                 <th>Book Details</th>
@@ -83,11 +85,11 @@ const AllBooks = () => {
           {/* Mobile Cards */}
         <div className="md:hidden space-y-4">
           {data.map((book) => (
-            <div key={book._id} className="card bg-base-100 shadow-xl border">
+            <div key={book._id} className="card bg-base-100 shadow-xl  ">
               <div className="card-body">
                 <div className="flex items-center gap-4">
                   <div className="avatar">
-                    <div className="mask bg-base-100 rounded-xl h-16 w-16">
+                    <div className="mask bg-base-100 rounded-xl h-20 w-16">
                       <img
                         src={book.coverImage || "/default-book-cover.jpg"}
                         alt={book.title}
@@ -98,9 +100,9 @@ const AllBooks = () => {
                   <div className="flex-1">
                     <h3 className="card-title text-lg">{book.title}</h3>
                     <p className="text-sm text-gray-600">by {book.author || "Unknown Author"}</p>
-                    <div className="flex justify-between items-center mt-2">
-                      <span className="badge badge-outline">{book.genre || "General"}</span>
-                      <span className="font-bold">${book.price || "N/A"}</span>
+                    <div className="flex justify-between gap-5 items-center mt-2">
+                      <span className="badge badge-outline text-xs p-5 ">{book.genre || "General"}</span>
+                      <span className="font-bold"><FaStar color="#FFD700" /> {book.rating || "N/A"}</span>
                     </div>
                   </div>
                 </div>

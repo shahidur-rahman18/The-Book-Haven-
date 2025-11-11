@@ -1,20 +1,28 @@
 import React from "react";
 import toast from "react-hot-toast";
 
-import { useLoaderData, } from "react-router";
+import { useLoaderData, useNavigate, } from "react-router";
 
 const UpdateBook = () => {
+   const navigate = useNavigate();
   const data = useLoaderData();
 //   const {id} = useParams()
-  const book = data.result;
+  const book = data?.result
   console.log(data)
+   if (!book || !book._id) {
+    return (
+      <div className="flex justify-center items-center min-h-screen">
+        <span className="loading loading-spinner loading-lg"></span>
+      </div>
+    );
+  }
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
    const formData = {
       title: e.target.title.value,
-      author_name: e.target.author_name.value,
+      author: e.target.author.value,
       rating: e.target.rating.value,
       genre: e.target.genre.value,
       summary: e.target.summary.value,
@@ -32,16 +40,18 @@ const UpdateBook = () => {
       .then((res) => res.json())
       .then((data) => {
         console.log(data);
+        navigate("/my-books");
         toast.success("Successfully updated!");
       })
       .catch((err) => {
         console.log(err);
+        toast.error("Failed to update book!");
       });
   };
   return (
     <div className="card bg-base-100 w-full max-w-md mx-auto shadow-2xl rounded-2xl">
       <div className="card-body p-6 relative">
-         <h1 className="text-xl md:text-3xl font-extrabold text-center text-primary ">Update Model</h1>
+         <h1 className="text-xl md:text-3xl font-extrabold text-center text-primary ">Update Book</h1>
         <form onSubmit={handleSubmit} className="space-y-4">
           {/* Name Field */}
           <div>
@@ -61,7 +71,7 @@ const UpdateBook = () => {
             <input
               type="text"
               defaultValue={book.author}
-              name="author_name"
+              name="author"
               required
               className="input w-full rounded-full focus:border-0 focus:outline-gray-200"
               placeholder="Enter author name"

@@ -15,7 +15,7 @@ const AddBook = () => {
 
     const formData = {
       title: e.target.title.value,
-      author_name: e.target.author_name.value,
+      author: e.target.author.value,
       rating: e.target.rating.value,
       genre: e.target.genre.value,
       summary: e.target.summary.value,
@@ -65,7 +65,7 @@ const AddBook = () => {
             <label className="label font-medium">Author Name</label>
             <input
               type="text"
-              name="author_name"
+              name="author"
               required
               className="input w-full rounded-full focus:border-0 focus:outline-gray-200"
               placeholder="Enter author name"
@@ -110,15 +110,15 @@ const AddBook = () => {
               <option value="" disabled>
                 Select category
               </option>
-              <option value="Vehicles">Design / Technical Fiction</option>
-              <option value="Plants">Philosophy / Non-Fiction</option>
-              <option value="Foods">Science Fiction</option>
-              <option value="Home & Living">
-                Health / Historical Reflection
+              <option value="Design">Design</option>
+              <option value="Philosophy">Philosophy</option>
+              <option value="Science Fiction">Science Fiction</option>
+              <option value="Health">
+                Health 
               </option>
-              <option value="Characters">Adventure</option>
-              <option value="Space">Romance</option>
-              <option value="Animals">Fantasy</option>
+              <option value="Adventure">Adventure</option>
+              <option value="Romance">Romance</option>
+              <option value="Fantasy">Fantasy</option>
               <option value="Other">Other</option>
             </select>
           </div>

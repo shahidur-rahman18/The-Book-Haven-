@@ -2,17 +2,20 @@ import React, { use, useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router";
 import { AuthContext } from "../context/AuthContext";
 import { PropagateLoader } from "react-spinners";
+import usePost from "../hooks/usePost";
+import toast from "react-hot-toast";
 
 const BookDetails = () => {
-  const navigate = useNavigate();
   const { id } = useParams();
+  const navigate = useNavigate();
   const [book, setBook] = useState({});
   const [loading, setLoading] = useState(true);
   const { user } = use(AuthContext);
   const [refetch, setRefetch] = useState(false);
+  const { error, response, postData } = usePost();
   useEffect(() => {
     fetch(`http://localhost:3000/books/${id}`, {
-     /*  headers: {
+      /*  headers: {
         authorization: `Bearer ${user.accessToken}`,
       }, */
     })
@@ -23,15 +26,36 @@ const BookDetails = () => {
       });
   }, [user, id, refetch]);
 
-  const handleDownload = () => {};
-  const handleDelete = () => {};
-  if (loading) {
+  const handleDownload = async () => {
+    const formData = {
+      title: book.title,
+      author: book.author,
+      genre: book.genre,
+      rating: book.rating,
+      summary: book.summary,
+      coverImage: book.coverImage,
+      userEmail: user?.email,
+      price: book.price,
+    };
+
+    const result = await postData(`/downloads/${book.id}`, formData);
+
+    if (result) {
+      toast.success("Successfully added!");
+      navigate("/my-books");
+    }
+  };
+
+  if ((loading, response)) {
     return (
       <div className="flex justify-center items-center h-screen">
         <PropagateLoader color="#842A3B" size={20} speedMultiplier={1.3} />
       </div>
     );
   }
+
+  if (error) return <p>Error loading data</p>;
+
   return (
     <div className="max-w-5xl mx-auto p-4 md:p-6 lg:p-8">
       <div className="card bg-base-100 shadow-xl border border-gray-200 rounded-2xl overflow-hidden">
@@ -53,7 +77,7 @@ const BookDetails = () => {
             {/* Category Badge */}
             <div className="flex flex-col gap-3 ">
               <div className="badge badge-lg badge-outline btn text-amber-950 border-amber-800 font-medium">
-                {book.genre} 
+                {book.genre}
               </div>
               <div className="badge badge-lg badge-outline btn text-primary border-primary font-medium">
                 Rating: {book.rating}
@@ -67,16 +91,23 @@ const BookDetails = () => {
             <p className="text-gray-600 leading-relaxed text-sm md:text-lg">
               {book.summary}
             </p>
+            <button
+              onClick={handleDownload}
+              className="btn text-white mt-4 rounded-full bg-linear-to-r from-[#662222] to-[#A3485A] "
+            >
+              Add To My Book
+            </button>
 
             {/* Optional: Action Buttons */}
-            <div className="flex flex-col md:flex-row gap-3 mt-6">
+            {/* <div className="flex flex-col md:flex-row gap-3 mt-6">
               <Link
-                 to={`/update-book/${book._id}`}
+                to={`/update-book/${book._id}`}
                 className="btn btn-primary rounded-full bg-linear-to-r from-[#662222] to-[#A3485A] text-white border-0 hover:from-pink-600 hover:to-red-700"
               >
                 Update Book
-              </Link>
-              <button
+              </Link> */}
+
+            {/*  <button
                 onClick={handleDownload}
                 className="btn btn-secondary rounded-full"
               >
@@ -88,8 +119,8 @@ const BookDetails = () => {
                 className="btn btn-outline rounded-full border-gray-300 hover:border-secondary hover:text-primary"
               >
                 Delete
-              </button>
-            </div>
+              </button> */}
+            {/* </div> */}
           </div>
         </div>
       </div>

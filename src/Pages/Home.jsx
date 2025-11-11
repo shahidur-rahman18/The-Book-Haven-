@@ -4,12 +4,14 @@ import Hero from "../components/Hero";
 import BookCard from "./BookCard";
 import useGet from "../hooks/useGet";
 import "swiper/css";
-import { Autoplay, Navigation, Pagination } from "swiper/modules";
+import { Autoplay } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 // eslint-disable-next-line no-unused-vars
 import { motion } from "framer-motion";
 import { useRef } from "react";
 import { PropagateLoader } from "react-spinners";
+import TopCategories from "../components/TopCategory";
+import FeaturedAuthors from "../components/FeaturedAuthor";
 
 const Home = () => {
   const { data, loading, error,  } = useGet("/books");
@@ -80,6 +82,8 @@ const Home = () => {
           ))}
         </Swiper>
       </div>
+      <TopCategories></TopCategories>
+      <FeaturedAuthors></FeaturedAuthors>
     </div>
   );
 };

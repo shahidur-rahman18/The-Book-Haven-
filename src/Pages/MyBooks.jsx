@@ -1,61 +1,95 @@
-import React from "react";
+import React, { use, useEffect, useState } from "react";
+import { AuthContext } from "../context/AuthContext";
+import { PropagateLoader } from "react-spinners";
+import MyBooksTable from "./MyBooksTable";
+import { FaStar } from "react-icons/fa6";
+import { Link, useParams } from "react-router";
 
 const MyBooks = () => {
+  // /my-downloads
+  const { id } = useParams();
+  const { user } = use(AuthContext);
+  const [books, setBooks] = useState([]);
+  const [loading, setLoading] = useState(true);
+  // console.log(user)
+
+  useEffect(() => {
+    fetch(
+      `http://localhost:3000/my-downloads?email=${user.email} ` /* ,
+      {
+        headers: {
+          authorization: `Bearer ${user.accessToken}`,
+        },
+      } */
+    )
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+        setBooks(data);
+        setLoading(false);
+      });
+  }, [user]);
+  if (loading) {
+    // ✅ improved loader section
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <PropagateLoader color="#dc143c" size={20} speedMultiplier={1.3} />
+      </div>
+    );
+  }
   return (
-    <div className="overflow-x-auto">
-      <table className="table">
-        {/* head */}
-        <thead>
-          <tr>
-            <th>
-              <label>
-                <input type="checkbox" className="checkbox" />
-              </label>
-            </th>
-            <th>Name</th>
-            <th>Job</th>
-            <th>Favorite Color</th>
-            <th></th>
-          </tr>
-        </thead>
-        <tbody>
-          {/* row 1 */}
-          <tr>
-            <th>
-              <label>
-                <input type="checkbox" className="checkbox" />
-              </label>
-            </th>
-            <td>
-              <div className="flex items-center gap-3">
+    <div>
+      {/* Desktop Table */}
+      <div className="hidden bg-base-100 rounded-2xl shadow-2xl md:block">
+        {books.map((book) => (
+          <MyBooksTable key={book._id} book={book} tableFormat={true} />
+        ))}
+      </div>
+      {/* Mobile Cards */}
+      <div className="md:hidden space-y-4">
+        {books.map((book) => (
+          <div key={book._id} className="card bg-base-100 shadow-xl  ">
+            <div className="card-body">
+              <div className="flex items-center gap-4">
                 <div className="avatar">
-                  <div className="mask mask-squircle h-12 w-12">
+                  <div className="mask bg-base-100 rounded-xl h-20 w-16">
                     <img
-                      src="https://img.daisyui.com/images/profile/demo/2@94.webp"
-                      alt="Avatar Tailwind CSS Component"
+                      src={book.coverImage || "/default-book-cover.jpg"}
+                      alt={book.title}
+                      className="object-cover"
                     />
                   </div>
                 </div>
-                <div>
-                  <div className="font-bold">Hart Hagerty</div>
-                  <div className="text-sm opacity-50">United States</div>
+                <div className="flex-1">
+                  <h3 className="card-title text-lg">{book.title}</h3>
+                  <p className="text-sm text-gray-600">
+                    by {book.author || "Unknown Author"}
+                  </p>
+                  <div className="flex justify-between gap-5 items-center mt-2">
+                    <span className="font-bold">
+                      <FaStar color="#FFD700" /> Date{" "}
+                    </span>
+                  </div>
                 </div>
               </div>
-            </td>
-            <td>
-              Zemlak, Daniel and Leannon
-              <br />
-              <span className="badge badge-ghost badge-sm">
-                Desktop Support Technician
-              </span>
-            </td>
-            <td><button className="btn btn-primary btn-xs">Delete</button></td>
-            <th>
-              <button className="btn btn-primary btn-xs">Update</button>
-            </th>
-          </tr>
-        </tbody>
-      </table>
+              <div className="card-actions justify-end mt-3">
+                <Link
+                  // to={`/book-details/${book._id}`}
+                  className="btn btn-primary btn-sm"
+                >
+                  Delete
+                </Link>
+                <Link
+                 to={`/update-book/${book._id}`}
+                  className="btn btn-primary btn-sm"
+                >
+                  Update
+                </Link>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
     </div>
   );
 };

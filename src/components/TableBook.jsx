@@ -1,4 +1,5 @@
 import React from "react";
+import { FaStar } from "react-icons/fa6";
 import { Link } from "react-router";
 
 const TableBook = ({ book, tableFormat = false }) => {
@@ -10,7 +11,7 @@ const TableBook = ({ book, tableFormat = false }) => {
         <td>
           <div className="flex items-center gap-3">
             <div className="avatar">
-              <div className="mask bg-base-100 rounded-xl h-12 w-12">
+              <div className="mask bg-base-100 rounded-2xl h-12 w-12">
                 <img
                   src={book.coverImage || "/default-book-cover.jpg"}
                   alt={book.title}
@@ -28,7 +29,7 @@ const TableBook = ({ book, tableFormat = false }) => {
         </td>
         <td>{book.author}</td>
         <td>{book.genre || "General"}</td>
-        <td className="font-semibold">${book.price || "N/A"}</td>
+        <td className="font-semibold"><FaStar color="#FFD700" /> {book.rating || "N/A"}</td>
         <td>
           <Link
             to={`/book-details/${_id}`}
@@ -45,6 +46,7 @@ const TableBook = ({ book, tableFormat = false }) => {
   return (
     <div className="card bg-base-100 shadow-xl">
       {/* Your original BookCard content */}
+    
     </div>
   );
 };
