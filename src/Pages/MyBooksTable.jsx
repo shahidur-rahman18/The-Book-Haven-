@@ -1,8 +1,7 @@
 import React from "react";
-import useGet from "../hooks/useGet";
 import { Link } from "react-router";
 
-const MyBooksTable = ({ book }) => {
+const MyBooksTable = ({ book, handleDelete }) => {
   const { _id, title, author, coverImage } = book;
 
   return (
@@ -39,7 +38,7 @@ const MyBooksTable = ({ book }) => {
 
             {/* COLUMN 3 — DELETE (Fixed Button) */}
             <td className="py-4 px-2 w-2/12 text-center">
-              <button className="btn btn-error btn-xs w-16">Delete</button>
+              <button onClick={()=>handleDelete(_id)} className="btn btn-primary btn-xs w-16">Delete</button>
             </td>
 
             {/* COLUMN 4 — UPDATE (Fixed Button) */}

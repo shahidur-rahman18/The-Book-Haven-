@@ -3,11 +3,11 @@ import { AuthContext } from "../context/AuthContext";
 import { PropagateLoader } from "react-spinners";
 import MyBooksTable from "./MyBooksTable";
 import { FaStar } from "react-icons/fa6";
-import { Link, useParams } from "react-router";
+import { Link } from "react-router";
+import Swal from "sweetalert2";
 
 const MyBooks = () => {
   // /my-downloads
-  const { id } = useParams();
   const { user } = use(AuthContext);
   const [books, setBooks] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -15,7 +15,7 @@ const MyBooks = () => {
 
   useEffect(() => {
     fetch(
-      `http://localhost:3000/my-downloads?email=${user.email} ` /* ,
+      `http://localhost:3000/books?email=${user.email} ` /* ,
       {
         headers: {
           authorization: `Bearer ${user.accessToken}`,
@@ -29,6 +29,45 @@ const MyBooks = () => {
         setLoading(false);
       });
   }, [user]);
+
+  const handleDelete = (id) => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#A3485A ",
+      confirmButtonText: "Yes, delete it!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        fetch(`http://localhost:3000/books/${id}`, {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        })
+          .then((res) => res.json())
+          .then((data) => {
+            console.log(data);
+            // navigate("/all-models");
+            setBooks((prevBooks) =>
+              prevBooks.filter((book) => book._id !== id)
+            );
+
+            Swal.fire({
+              title: "Deleted!",
+              text: "Your file has been deleted.",
+              icon: "success",
+            });
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      }
+    });
+  };
+
   if (loading) {
     // ✅ improved loader section
     return (
@@ -42,7 +81,7 @@ const MyBooks = () => {
       {/* Desktop Table */}
       <div className="hidden bg-base-100 rounded-2xl shadow-2xl md:block">
         {books.map((book) => (
-          <MyBooksTable key={book._id} book={book} tableFormat={true} />
+          <MyBooksTable key={book._id} book={book}  handleDelete={handleDelete} tableFormat={true} />
         ))}
       </div>
       {/* Mobile Cards */}
@@ -75,12 +114,13 @@ const MyBooks = () => {
               <div className="card-actions justify-end mt-3">
                 <Link
                   // to={`/book-details/${book._id}`}
+                  onClick={() => handleDelete(book._id)}
                   className="btn btn-primary btn-sm"
                 >
                   Delete
                 </Link>
                 <Link
-                 to={`/update-book/${book._id}`}
+                  to={`/update-book/${book._id}`}
                   className="btn btn-primary btn-sm"
                 >
                   Update

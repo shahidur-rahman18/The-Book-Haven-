@@ -1,21 +1,21 @@
 import React from "react";
 import toast from "react-hot-toast";
 
-import { useLoaderData, useNavigate, } from "react-router";
+import { useLoaderData, useNavigate, useParams, } from "react-router";
 
 const UpdateBook = () => {
    const navigate = useNavigate();
-  const data = useLoaderData();
-//   const {id} = useParams()
+   const data = useLoaderData()
   const book = data?.result
   console.log(data)
+ /*  console.log(book)
    if (!book || !book._id) {
     return (
       <div className="flex justify-center items-center min-h-screen">
         <span className="loading loading-spinner loading-lg"></span>
       </div>
     );
-  }
+  } */
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -58,7 +58,7 @@ const UpdateBook = () => {
             <label className="label font-medium">Title</label>
             <input
               type="text"
-              defaultValue={book.title}
+              defaultValue={book?.title}
               name="title"
               required
               className="input w-full rounded-full focus:border-0 focus:outline-gray-200"
@@ -70,7 +70,7 @@ const UpdateBook = () => {
             <label className="label font-medium">Author Name</label>
             <input
               type="text"
-              defaultValue={book.author}
+              defaultValue={book?.author}
               name="author"
               required
               className="input w-full rounded-full focus:border-0 focus:outline-gray-200"
@@ -81,7 +81,7 @@ const UpdateBook = () => {
             <label className="label font-medium">Rating</label>
             <input
               type="number"
-              defaultValue={book.rating}
+              defaultValue={book?.rating}
               name="rating"
               required
               min="1"
@@ -95,7 +95,7 @@ const UpdateBook = () => {
             <label className="label font-medium">Price</label>
             <input
               type="number"
-              defaultValue= {book.price}
+              defaultValue= {book?.price}
               name="price"
               required
               min="100"
@@ -110,7 +110,7 @@ const UpdateBook = () => {
           <div>
             <label className="label font-medium">Category</label>
             <select
-              defaultValue={book.genre}
+              defaultValue={book?.genre}
               name="genre"
               required
               className="select w-full rounded-full focus:border-0 focus:outline-gray-200"
@@ -135,7 +135,7 @@ const UpdateBook = () => {
           <div>
             <label className="label font-medium">Description</label>
             <textarea
-              defaultValue={book.summary}
+              defaultValue={book?.summary}
               name="summary"
               required
               rows="3"
@@ -150,7 +150,7 @@ const UpdateBook = () => {
             <input
               type="url"
               name="coverImage"
-              defaultValue={book.coverImage}
+              defaultValue={book?.coverImage}
               required
               className="input w-full rounded-full focus:border-0 focus:outline-gray-200"
               placeholder="https://example.com/image.jpg"

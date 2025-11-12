@@ -8,6 +8,7 @@ import TableBook from "../components/TableBook";
 import { FcRating } from "react-icons/fc";
 import { FaStar } from "react-icons/fa6";
 import { useState } from "react";
+import Swal from "sweetalert2";
 
 const AllBooks = () => {
   const { data, loading, error, setUrl } = useGet("/books");
@@ -16,17 +17,33 @@ const AllBooks = () => {
   //  Function to filter and sort data by rating
   const getFilteredAndSortedData = () => {
     let result = [...data];
-    
+
     if (ratingFilter === "ascending") {
       result.sort((a, b) => (a.rating || 0) - (b.rating || 0));
     } else if (ratingFilter === "descending") {
       result.sort((a, b) => (b.rating || 0) - (a.rating || 0));
     }
-    
+
     return result;
   };
 
-  const displayData = ratingFilter === "none" ? data : getFilteredAndSortedData();
+  const displayData =
+    ratingFilter === "none" ? data : getFilteredAndSortedData();
+
+  const handleComment = async () => {
+    const { value: text } = await Swal.fire({
+      input: "textarea",
+      inputLabel: "Message",
+      inputPlaceholder: "Type your message here...",
+      inputAttributes: {
+        "aria-label": "Type your message here",
+      },
+      showCancelButton: true,
+    });
+    if (text) {
+      Swal.fire(text);
+    }
+  };
 
   const handleSearch = (e) => {
     e.preventDefault();
@@ -44,15 +61,15 @@ const AllBooks = () => {
   if (error) return <p>Error loading data</p>;
   return (
     <div>
-      <div className="text-2xl md:text-4xl text-primary text-center font-bold"> All Books</div>
+      <div className="text-2xl md:text-4xl text-primary text-center font-bold">
+        {" "}
+        All Books
+      </div>
       <p className=" text-center mb-10 ">Explore Books.</p>
-      
+
       {/* CHANGE 4: Add filter dropdown section for rating sort */}
       <div className="px-2 mb-6 flex flex-col md:flex-row justify-between items-center gap-4">
-        <form
-          onSubmit={handleSearch}
-          className="flex gap-2 w-full md:w-auto"
-        >
+        <form onSubmit={handleSearch} className="flex gap-2 w-full md:w-auto">
           <label className="input rounded-full flex-1 md:flex-none">
             <svg
               className="h-[1em] opacity-50"
@@ -77,6 +94,7 @@ const AllBooks = () => {
             {loading ? "Searching...." : "Search"}
           </button>
         </form>
+       
 
         {/*  Add rating filter dropdown */}
         <select
@@ -96,7 +114,7 @@ const AllBooks = () => {
         transition={{ duration: 0.9, delay: 0.5 }}
         className="overflow-x-auto mt-5"
       >
-         {/* Desktop Table */}
+        {/* Desktop Table */}
         <div className="hidden bg-base-100 rounded-2xl shadow-2xl md:block">
           <table className="table rounded-full table-zebra w-full">
             <thead>
@@ -116,7 +134,7 @@ const AllBooks = () => {
             </tbody>
           </table>
         </div>
-          {/* Mobile Cards */}
+        {/* Mobile Cards */}
         <div className="md:hidden space-y-4">
           {/* CHANGE 7: Use displayData instead of data to show filtered results on mobile */}
           {displayData.map((book) => (
@@ -134,10 +152,16 @@ const AllBooks = () => {
                   </div>
                   <div className="flex-1">
                     <h3 className="card-title text-lg">{book.title}</h3>
-                    <p className="text-sm text-gray-600">by {book.author || "Unknown Author"}</p>
+                    <p className="text-sm text-gray-600">
+                      by {book.author || "Unknown Author"}
+                    </p>
                     <div className="flex justify-between gap-5 items-center mt-2">
-                      <span className="badge badge-outline text-xs p-5 ">{book.genre || "General"}</span>
-                      <span className="font-bold"><FaStar color="#FFD700" /> {book.rating || "N/A"}</span>
+                      <span className="badge badge-outline text-xs p-5 ">
+                        {book.genre || "General"}
+                      </span>
+                      <span className="font-bold">
+                        <FaStar color="#FFD700" /> {book.rating || "N/A"}
+                      </span>
                     </div>
                   </div>
                 </div>
@@ -154,17 +178,17 @@ const AllBooks = () => {
           ))}
         </div>
       </motion.div>
+       <button  onClick={() => handleComment()} className="btn btn-primary mt-5 items-center">
+          {" "}
+          Add Comment{" "}
+        </button>
     </div>
   );
 };
 
 export default AllBooks;
 
-
-
-
-
- /*      <motion.div
+/*      <motion.div
         initial={{ y: 80, opacity: 1 }}
         animate={{ y: 2, opacity: 1 }}
         transition={{ duration: 0.9, delay: 0.5 }}

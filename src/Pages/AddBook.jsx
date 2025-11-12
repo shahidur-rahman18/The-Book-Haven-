@@ -41,7 +41,7 @@ const AddBook = () => {
     }
   };
 
-  if (loading) {
+  if (loading,response) {
     return (
       <div className="flex justify-center items-center h-screen">
         <PropagateLoader size={20} speedMultiplier={1.3} />
@@ -50,7 +50,7 @@ const AddBook = () => {
   }
 
   if (error) return <p>Error loading data</p>;
-  if (response) return <p>Book Added Successfully!</p>;
+ 
 
   return (
     <div className="card border border-gray-200 bg-base-100 w-full max-w-md mx-auto shadow-2xl rounded-2xl">

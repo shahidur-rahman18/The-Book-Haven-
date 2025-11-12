@@ -23,11 +23,11 @@ const Home = () => {
     }
   };
 
-  const handleMouseLeave = () => {
+  /* const handleMouseLeave = () => {
     if (swiperRef.current && swiperRef.current.swiper) {
       swiperRef.current.swiper.autoplay.stop();
     }
-  };
+  }; */
 
    if (loading) {
     return (
@@ -54,7 +54,7 @@ const Home = () => {
       <div
         className="max-w-7xl px-10 py-10 mx-auto gap-3 mt-5"
         onMouseEnter={handleMouseEnter}
-        onMouseLeave={handleMouseLeave}
+        // onMouseLeave={handleMouseLeave}
       >
         <Swiper
           ref={swiperRef}

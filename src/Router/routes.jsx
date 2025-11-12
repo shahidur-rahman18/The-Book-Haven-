@@ -29,7 +29,6 @@ export const router = createBrowserRouter([
         path: "/profile",
         element: (
           <PrivateRoute>
-            {" "}
             <Profile></Profile>
           </PrivateRoute>
         ),
@@ -38,7 +37,6 @@ export const router = createBrowserRouter([
         path: "/add-book",
         element: (
           <PrivateRoute>
-            {" "}
             <AddBook></AddBook>
           </PrivateRoute>
         ),
@@ -47,8 +45,7 @@ export const router = createBrowserRouter([
         path: "/book-details/:id",
         element: (
           <PrivateRoute>
-            {" "}
-            <BookDetails></BookDetails>{" "}
+            <BookDetails></BookDetails>
           </PrivateRoute>
         ),
       },
@@ -56,17 +53,15 @@ export const router = createBrowserRouter([
         path: "/my-books",
         element: (
           <PrivateRoute>
-            {" "}
             <MyBooks></MyBooks>
           </PrivateRoute>
         ),
       },
-      
+
       {
         path: "/update-book/:id",
         element: (
           <PrivateRoute>
-            {" "}
             <UpdateBook></UpdateBook>
           </PrivateRoute>
         ),
