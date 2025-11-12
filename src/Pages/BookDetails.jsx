@@ -12,7 +12,6 @@ import Comment from "./Comment";
 const BookDetails = () => {
   const { data } = useGet("/comments");
   const { error, response, postData } = usePost();
-  console.log(data);
   const { id } = useParams();
   const navigate = useNavigate();
   const [book, setBook] = useState({});
@@ -34,26 +33,6 @@ const BookDetails = () => {
       });
   }, [user, id, refetch]);
 
-  const handleDownload = async () => {
-    const formData = {
-      title: book.title,
-      author: book.author,
-      genre: book.genre,
-      rating: book.rating,
-      summary: book.summary,
-      coverImage: book.coverImage,
-      userEmail: user?.email,
-      price: book.price,
-    };
-
-    const result = await postData(`/downloads/${book.id}`, formData);
-
-    if (result) {
-      toast.success("Successfully added!");
-      navigate("/my-books");
-    }
-  };
-
   const handleComment = async () => {
     const { value: text } = await Swal.fire({
       input: "textarea",
@@ -72,7 +51,7 @@ const BookDetails = () => {
         userPhoto: user?.photoURL,
         userEmail: user?.email,
         comment: text,
-        bookId: book._id, // optional if you want to link the comment to a book
+        bookId: book._id, 
         createdAt: new Date(),
       };
 
@@ -137,36 +116,11 @@ const BookDetails = () => {
             <p className="text-gray-600 leading-relaxed text-sm md:text-lg">
               {book.summary}
             </p>
-            <button
-              onClick={handleDownload}
+            <Link to='/my-books'
               className="btn text-white mt-4 rounded-full bg-linear-to-r from-[#662222] to-[#A3485A] "
             >
-              Add To My Book
-            </button>
-
-            {/* Optional: Action Buttons */}
-            {/* <div className="flex flex-col md:flex-row gap-3 mt-6">
-              <Link
-                to={`/update-book/${book._id}`}
-                className="btn btn-primary rounded-full bg-linear-to-r from-[#662222] to-[#A3485A] text-white border-0 hover:from-pink-600 hover:to-red-700"
-              >
-                Update Book
-              </Link> */}
-
-            {/*  <button
-                onClick={handleDownload}
-                className="btn btn-secondary rounded-full"
-              >
-                Download
-              </button>
-
-              <button
-                onClick={handleDelete}
-                className="btn btn-outline rounded-full border-gray-300 hover:border-secondary hover:text-primary"
-              >
-                Delete
-              </button> */}
-            {/* </div> */}
+              Go To My Book
+            </Link>
           </div>
         </div>
       </div>
