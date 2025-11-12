@@ -3,11 +3,14 @@ import { AuthContext } from "../context/AuthContext";
 import { useNavigate } from "react-router";
 import usePost from "../hooks/usePost";
 import { PropagateLoader } from "react-spinners";
+import withReactContent from "sweetalert2-react-content";
+import Swal from "sweetalert2";
 
 const AddBook = () => {
   const { user } = use(AuthContext);
   const navigate = useNavigate();
   const { loading, error, response, postData } = usePost();
+  const MySwal = withReactContent(Swal);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -26,21 +29,26 @@ const AddBook = () => {
     const result = await postData("/books", formData);
 
     if (result) {
-      // toast.success("Successfully added!");
-      setTimeout(() => {
-      navigate("/all-books");
-    }, 1500);
-      return <div role="alert" className="alert alert-success">
-  <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 shrink-0 stroke-current" fill="none" viewBox="0 0 24 24">
-    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-  </svg>
-  <span>Successfully added!!</span>
-</div>
-      // navigate("/all-books");
+      MySwal.fire({
+        icon: "success",
+        title: "Successfully added!",
+        showConfirmButton: false,
+        timer: 1500,
+        timerProgressBar: true,
+        willClose: () => {
+          navigate("/all-books");
+        },
+      });
+    } else {
+      MySwal.fire({
+        icon: "error",
+        title: "Failed to add book!",
+        confirmButtonText: "Try Again",
+      });
     }
   };
 
-  if (loading,response) {
+  if ((loading, response)) {
     return (
       <div className="flex justify-center items-center h-screen">
         <PropagateLoader size={20} speedMultiplier={1.3} />
@@ -49,7 +57,6 @@ const AddBook = () => {
   }
 
   if (error) return <p>Error loading data</p>;
- 
 
   return (
     <div className="card border border-gray-200 bg-base-100 w-full max-w-md mx-auto shadow-2xl rounded-2xl">
@@ -121,9 +128,7 @@ const AddBook = () => {
               <option value="Design">Design</option>
               <option value="Philosophy">Philosophy</option>
               <option value="Science Fiction">Science Fiction</option>
-              <option value="Health">
-                Health 
-              </option>
+              <option value="Health">Health</option>
               <option value="Adventure">Adventure</option>
               <option value="Romance">Romance</option>
               <option value="Fantasy">Fantasy</option>
