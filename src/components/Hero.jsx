@@ -15,12 +15,12 @@ const Hero = () => {
 
           {/* Text Section */}
           <div className="space-y-6">
-            <h1 className="text-center text-xl md:text-2xl lg:text-4xl font-extrabold leading-tight text-gray-800">
+            <h1 className=" text-xl md:text-xl lg:text-3xl font-extrabold leading-tight text-gray-800">
               The Book
               <span className="text-primary">Haven</span>
             </h1>
 
-            <p className="text-gray-600 text-lg max-w-md">
+            <p className="text-gray-600 text-sm max-w-md">
               Explore a collection of timeless classics, modern novels, and
               inspirational stories. Your reading journey begins here.
             </p>

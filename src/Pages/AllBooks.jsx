@@ -7,9 +7,27 @@ import { motion } from "framer-motion";
 import TableBook from "../components/TableBook";
 import { FcRating } from "react-icons/fc";
 import { FaStar } from "react-icons/fa6";
+import { useState } from "react";
 
 const AllBooks = () => {
   const { data, loading, error, setUrl } = useGet("/books");
+  const [ratingFilter, setRatingFilter] = useState("none");
+
+  //  Function to filter and sort data by rating
+  const getFilteredAndSortedData = () => {
+    let result = [...data];
+    
+    if (ratingFilter === "ascending") {
+      result.sort((a, b) => (a.rating || 0) - (b.rating || 0));
+    } else if (ratingFilter === "descending") {
+      result.sort((a, b) => (b.rating || 0) - (a.rating || 0));
+    }
+    
+    return result;
+  };
+
+  const displayData = ratingFilter === "none" ? data : getFilteredAndSortedData();
+
   const handleSearch = (e) => {
     e.preventDefault();
     const search_text = e.target.search.value;
@@ -28,34 +46,49 @@ const AllBooks = () => {
     <div>
       <div className="text-2xl md:text-4xl text-primary text-center font-bold"> All Books</div>
       <p className=" text-center mb-10 ">Explore Books.</p>
-      <form
-        onSubmit={handleSearch}
-        className=" mt-5 mb-10 flex gap-2 px-2 justify-center"
-      >
-        <label className="input rounded-full ">
-          <svg
-            className="h-[1em] opacity-50"
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 24 24"
-          >
-            <g
-              strokeLinejoin="round"
-              strokeLinecap="round"
-              strokeWidth="2.5"
-              fill="none"
-              stroke="currentColor"
+      
+      {/* CHANGE 4: Add filter dropdown section for rating sort */}
+      <div className="px-2 mb-6 flex flex-col md:flex-row justify-between items-center gap-4">
+        <form
+          onSubmit={handleSearch}
+          className="flex gap-2 w-full md:w-auto"
+        >
+          <label className="input rounded-full flex-1 md:flex-none">
+            <svg
+              className="h-[1em] opacity-50"
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
             >
-              <circle cx="11" cy="11" r="8"></circle>
-              <path d="m21 21-4.3-4.3"></path>
-            </g>
-          </svg>
-          <input name="search" type="search" placeholder="Search" />
-        </label>
+              <g
+                strokeLinejoin="round"
+                strokeLinecap="round"
+                strokeWidth="2.5"
+                fill="none"
+                stroke="currentColor"
+              >
+                <circle cx="11" cy="11" r="8"></circle>
+                <path d="m21 21-4.3-4.3"></path>
+              </g>
+            </svg>
+            <input name="search" type="search" placeholder="Search" />
+          </label>
 
-        <button className="btn btn-secondary  rounded-full">
-          {loading ? "Searching...." : "Search"}
-        </button>
-      </form>
+          <button className="btn btn-secondary rounded-full">
+            {loading ? "Searching...." : "Search"}
+          </button>
+        </form>
+
+        {/*  Add rating filter dropdown */}
+        <select
+          value={ratingFilter}
+          onChange={(e) => setRatingFilter(e.target.value)}
+          className="select bg-primary cursor-pointer rounded-full text-amber-100 w-full md:w-auto"
+        >
+          <option value="none">Filter by Rating</option>
+          <option value="ascending">Rating: Low to High</option>
+          <option value="descending">Rating: High to Low</option>
+        </select>
+      </div>
 
       <motion.div
         initial={{ y: 80, opacity: 1 }}
@@ -71,12 +104,13 @@ const AllBooks = () => {
                 <th>Book Details</th>
                 <th>Author</th>
                 <th>Genre</th>
-                <th>Price</th>
+                <th>Rating</th>
                 <th>Actions</th>
               </tr>
             </thead>
             <tbody>
-              {data.map((book) => (
+              {/*  Use displayData instead of data to show filtered results */}
+              {displayData.map((book) => (
                 <TableBook key={book._id} book={book} tableFormat={true} />
               ))}
             </tbody>
@@ -84,7 +118,8 @@ const AllBooks = () => {
         </div>
           {/* Mobile Cards */}
         <div className="md:hidden space-y-4">
-          {data.map((book) => (
+          {/* CHANGE 7: Use displayData instead of data to show filtered results on mobile */}
+          {displayData.map((book) => (
             <div key={book._id} className="card bg-base-100 shadow-xl  ">
               <div className="card-body">
                 <div className="flex items-center gap-4">
@@ -124,3 +159,18 @@ const AllBooks = () => {
 };
 
 export default AllBooks;
+
+
+
+
+
+ /*      <motion.div
+        initial={{ y: 80, opacity: 1 }}
+        animate={{ y: 2, opacity: 1 }}
+        transition={{ duration: 0.9, delay: 0.5 }}
+        className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3 lg:gap-8 mt-5"
+      >
+        {data.map((book) => (
+          <BookCard key={book._id} book={book} />
+        ))}
+      </motion.div> */

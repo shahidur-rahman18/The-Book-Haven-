@@ -48,7 +48,7 @@ const Home = () => {
         transition={{ duration:3, delay:0.5 }}
         className="mt-5 text-center text-primary text-2xl md:text-4xl font-extrabold"
       >
-        Featured Books
+        Latest Books
       </motion.h1>
 
       <div
