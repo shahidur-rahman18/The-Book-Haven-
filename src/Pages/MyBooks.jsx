@@ -15,12 +15,12 @@ const MyBooks = () => {
 
   useEffect(() => {
     fetch(
-      `http://localhost:3000/books?email=${user.email} ` /* ,
+      `https://the-book-haven-server-six.vercel.app/books?email=${user.email} `,
       {
         headers: {
           authorization: `Bearer ${user.accessToken}`,
         },
-      } */
+      }
     )
       .then((res) => res.json())
       .then((data) => {
@@ -41,10 +41,11 @@ const MyBooks = () => {
       confirmButtonText: "Yes, delete it!",
     }).then((result) => {
       if (result.isConfirmed) {
-        fetch(`http://localhost:3000/books/${id}`, {
+        fetch(`https://the-book-haven-server-six.vercel.app/books/${id}`, {
           method: "DELETE",
           headers: {
             "Content-Type": "application/json",
+            authorization: `Bearer ${user.accessToken}`,
           },
         })
           .then((res) => res.json())
@@ -81,7 +82,12 @@ const MyBooks = () => {
       {/* Desktop Table */}
       <div className="hidden bg-base-100 rounded-2xl shadow-2xl md:block">
         {books.map((book) => (
-          <MyBooksTable key={book._id} book={book}  handleDelete={handleDelete} tableFormat={true} />
+          <MyBooksTable
+            key={book._id}
+            book={book}
+            handleDelete={handleDelete}
+            tableFormat={true}
+          />
         ))}
       </div>
       {/* Mobile Cards */}

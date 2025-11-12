@@ -2,7 +2,6 @@ import React, { use } from "react";
 import { AuthContext } from "../context/AuthContext";
 import { useNavigate } from "react-router";
 import usePost from "../hooks/usePost";
-import toast from "react-hot-toast";
 import { PropagateLoader } from "react-spinners";
 
 const AddBook = () => {

@@ -1,26 +1,45 @@
-import React from "react";
+import React, { use, useEffect, useState } from "react";
 import toast from "react-hot-toast";
-
-import { useLoaderData, useNavigate, useParams, } from "react-router";
+import { useNavigate, useParams } from "react-router";
+import { AuthContext } from "../context/AuthContext";
+import axios from "axios";
 
 const UpdateBook = () => {
-   const navigate = useNavigate();
-   const data = useLoaderData()
-  const book = data?.result
-  console.log(data)
- /*  console.log(book)
-   if (!book || !book._id) {
-    return (
-      <div className="flex justify-center items-center min-h-screen">
-        <span className="loading loading-spinner loading-lg"></span>
-      </div>
-    );
-  } */
+  const { user } = use(AuthContext);
+  const navigate = useNavigate();
+  const { id } = useParams(); // 🔹 get book id from URL
+  const [book, setBook] = useState(null);
+  const [loading, setLoading] = useState(true);
 
+  // ✅ Fetch book data here instead of using loader
+  useEffect(() => {
+    const fetchBook = async () => {
+      try {
+        const res = await axios.get(
+          `https://the-book-haven-server-six.vercel.app/books/${id}`,
+          {
+            headers: {
+              authorization: `Bearer ${user?.accessToken}`,
+            },
+          }
+        );
+        setBook(res.data?.result);
+      } catch (err) {
+        console.error(err);
+        toast.error("Failed to load book!");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchBook();
+  }, [id, user?.accessToken]);
+
+  // ✅ Handle Update Submit
   const handleSubmit = (e) => {
     e.preventDefault();
 
-   const formData = {
+    const formData = {
       title: e.target.title.value,
       author: e.target.author.value,
       rating: e.target.rating.value,
@@ -30,30 +49,42 @@ const UpdateBook = () => {
       price: e.target.price.value,
     };
 
-    fetch(`http://localhost:3000/books/${book._id}`, {
+    fetch(`https://the-book-haven-server-six.vercel.app/books/${id}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
+        authorization: `Bearer ${user?.accessToken}`,
       },
       body: JSON.stringify(formData),
     })
       .then((res) => res.json())
-      .then((data) => {
-        console.log(data);
-        navigate("/my-books");
+      .then(() => {
         toast.success("Successfully updated!");
+        navigate("/my-books");
       })
       .catch((err) => {
-        console.log(err);
+        console.error(err);
         toast.error("Failed to update book!");
       });
   };
+
+  // ✅ Loading UI
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center min-h-screen">
+        <span className="loading loading-spinner loading-lg"></span>
+      </div>
+    );
+  }
+
+  // ✅ Form UI
   return (
     <div className="card bg-base-100 w-full max-w-md mx-auto shadow-2xl rounded-2xl">
       <div className="card-body p-6 relative">
-         <h1 className="text-xl md:text-3xl font-extrabold text-center text-primary ">Update Book</h1>
+        <h1 className="text-xl md:text-3xl font-extrabold text-center text-primary">
+          Update Book
+        </h1>
         <form onSubmit={handleSubmit} className="space-y-4">
-          {/* Name Field */}
           <div>
             <label className="label font-medium">Title</label>
             <input
@@ -77,6 +108,7 @@ const UpdateBook = () => {
               placeholder="Enter author name"
             />
           </div>
+
           <div>
             <label className="label font-medium">Rating</label>
             <input
@@ -88,25 +120,25 @@ const UpdateBook = () => {
               max="5"
               step="0.1"
               className="input w-full rounded-full focus:border-0 focus:outline-gray-200"
-              placeholder="Enter rating from 1 to 5"
+              placeholder="Enter rating"
             />
           </div>
+
           <div>
             <label className="label font-medium">Price</label>
             <input
               type="number"
-              defaultValue= {book?.price}
+              defaultValue={book?.price}
               name="price"
               required
               min="100"
               max="500"
               step="0.1"
               className="input w-full rounded-full focus:border-0 focus:outline-gray-200"
-              placeholder="Enter price from 100 to 500"
+              placeholder="Enter price"
             />
           </div>
 
-          {/* Category Dropdown */}
           <div>
             <label className="label font-medium">Category</label>
             <select
@@ -131,7 +163,6 @@ const UpdateBook = () => {
             </select>
           </div>
 
-          {/* Description Textarea */}
           <div>
             <label className="label font-medium">Description</label>
             <textarea
@@ -144,7 +175,6 @@ const UpdateBook = () => {
             ></textarea>
           </div>
 
-          {/* Thumbnail URL */}
           <div>
             <label className="label font-medium">Thumbnail URL</label>
             <input
@@ -157,7 +187,6 @@ const UpdateBook = () => {
             />
           </div>
 
-          {/* Submit Button */}
           <button
             type="submit"
             className="btn w-full text-white mt-6 rounded-full bg-linear-to-r from-[#662222] to-[#A3485A] hover:from-amber-600 hover:to-amber-950"

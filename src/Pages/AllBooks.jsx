@@ -7,12 +7,17 @@ import { motion } from "framer-motion";
 import TableBook from "../components/TableBook";
 import { FcRating } from "react-icons/fc";
 import { FaStar } from "react-icons/fa6";
-import { useState } from "react";
+import { use, useState } from "react";
 import Swal from "sweetalert2";
+import axios from "axios";
+import { AuthContext } from "../context/AuthContext";
+import toast from "react-hot-toast";
 
 const AllBooks = () => {
   const { data, loading, error, setUrl } = useGet("/books");
+  const [searchResults, setSearchResults] = useState([]);
   const [ratingFilter, setRatingFilter] = useState("none");
+  const { user } = use(AuthContext);
 
   //  Function to filter and sort data by rating
   const getFilteredAndSortedData = () => {
@@ -30,12 +35,32 @@ const AllBooks = () => {
   const displayData =
     ratingFilter === "none" ? data : getFilteredAndSortedData();
 
-
-
-  const handleSearch = (e) => {
+  const handleSearch = async (e) => {
     e.preventDefault();
     const search_text = e.target.search.value;
-    setUrl(`/search?search=${encodeURIComponent(search_text)}`);
+
+    if (search_text.trim()) {
+      try {
+        const res = await axios.get(
+          `https://the-book-haven-server-six.vercel.app/search?search=${encodeURIComponent(
+            search_text
+          )}`,
+          {
+            headers: {
+              authorization: `Bearer ${user.accessToken}`,
+            },
+          }
+        );
+
+        setSearchResults(res.data); // store secure search results
+      } catch (err) {
+        console.error(err);
+        toast.error("Unauthorized or failed to fetch data");
+      }
+    } else {
+      // if empty search, show all books again
+      setSearchResults([]);
+    }
   };
 
   if (loading) {
@@ -81,7 +106,6 @@ const AllBooks = () => {
             {loading ? "Searching...." : "Search"}
           </button>
         </form>
-       
 
         {/*  Add rating filter dropdown */}
         <select
@@ -165,7 +189,6 @@ const AllBooks = () => {
           ))}
         </div>
       </motion.div>
-      
     </div>
   );
 };

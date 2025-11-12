@@ -65,8 +65,7 @@ export const router = createBrowserRouter([
             <UpdateBook></UpdateBook>
           </PrivateRoute>
         ),
-        loader: ({ params }) =>
-          fetch(`http://localhost:3000/books/${params.id}`),
+       
       },
 
       {

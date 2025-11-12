@@ -15,7 +15,6 @@ const BookDetails = () => {
   console.log(data);
   const { id } = useParams();
   const navigate = useNavigate();
-  const [comment, setComment]= useState({})
   const [book, setBook] = useState({});
   const [loading, setLoading] = useState(true);
   const { user } = use(AuthContext);
@@ -23,10 +22,10 @@ const BookDetails = () => {
   const [refetch, setRefetch] = useState(false);
 
   useEffect(() => {
-    fetch(`http://localhost:3000/books/${id}`, {
-      /*  headers: {
+    fetch(`https://the-book-haven-server-six.vercel.app/books/${id}`, {
+      headers: {
         authorization: `Bearer ${user.accessToken}`,
-      }, */
+      },
     })
       .then((res) => res.json()) /* add */
       .then((data) => {
@@ -55,44 +54,43 @@ const BookDetails = () => {
     }
   };
 
- const handleComment = async () => {
-  const { value: text } = await Swal.fire({
-    input: "textarea",
-    inputLabel: "Message",
-    inputPlaceholder: "Type your message here...",
-    inputAttributes: {
-      "aria-label": "Type your message here",
-    },
-    showCancelButton: true,
-  });
+  const handleComment = async () => {
+    const { value: text } = await Swal.fire({
+      input: "textarea",
+      inputLabel: "Message",
+      inputPlaceholder: "Type your message here...",
+      inputAttributes: {
+        "aria-label": "Type your message here",
+      },
+      showCancelButton: true,
+    });
 
-  if (text) {
-    // Build comment data
-    const formData = {
-      userName: user?.displayName,
-      userPhoto: user?.photoURL,
-      userEmail: user?.email,
-      comment: text,
-      bookId: book._id, // optional if you want to link the comment to a book
-      createdAt: new Date(),
-    };
+    if (text) {
+      // Build comment data
+      const formData = {
+        userName: user?.displayName,
+        userPhoto: user?.photoURL,
+        userEmail: user?.email,
+        comment: text,
+        bookId: book._id, // optional if you want to link the comment to a book
+        createdAt: new Date(),
+      };
 
-    try {
-      const result = await postData("/comments", formData);
+      try {
+        const result = await postData("/comments", formData);
 
-      if (result?.success) {
-        toast.success("Comment added successfully!");
-         window.location.reload();
-      } else {
-        toast.error("Failed to add comment!");
+        if (result?.success) {
+          toast.success("Comment added successfully!");
+          window.location.reload();
+        } else {
+          toast.error("Failed to add comment!");
+        }
+      } catch (error) {
+        console.error(error);
+        toast.error("Something went wrong!");
       }
-    } catch (error) {
-      console.error(error);
-      toast.error("Something went wrong!");
     }
-  }
-};
-
+  };
 
   if ((loading, response)) {
     return (
