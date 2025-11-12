@@ -30,20 +30,7 @@ const AllBooks = () => {
   const displayData =
     ratingFilter === "none" ? data : getFilteredAndSortedData();
 
-  const handleComment = async () => {
-    const { value: text } = await Swal.fire({
-      input: "textarea",
-      inputLabel: "Message",
-      inputPlaceholder: "Type your message here...",
-      inputAttributes: {
-        "aria-label": "Type your message here",
-      },
-      showCancelButton: true,
-    });
-    if (text) {
-      Swal.fire(text);
-    }
-  };
+
 
   const handleSearch = (e) => {
     e.preventDefault();
@@ -178,10 +165,7 @@ const AllBooks = () => {
           ))}
         </div>
       </motion.div>
-       <button  onClick={() => handleComment()} className="btn btn-primary mt-5 items-center">
-          {" "}
-          Add Comment{" "}
-        </button>
+      
     </div>
   );
 };

@@ -4,15 +4,24 @@ import { AuthContext } from "../context/AuthContext";
 import { PropagateLoader } from "react-spinners";
 import usePost from "../hooks/usePost";
 import toast from "react-hot-toast";
+import { Star } from "lucide-react";
+import useGet from "../hooks/useGet";
+import Swal from "sweetalert2";
+import Comment from "./Comment";
 
 const BookDetails = () => {
+  const { data } = useGet("/comments");
+  const { error, response, postData } = usePost();
+  console.log(data);
   const { id } = useParams();
   const navigate = useNavigate();
+  const [comment, setComment]= useState({})
   const [book, setBook] = useState({});
   const [loading, setLoading] = useState(true);
   const { user } = use(AuthContext);
+
   const [refetch, setRefetch] = useState(false);
-  const { error, response, postData } = usePost();
+
   useEffect(() => {
     fetch(`http://localhost:3000/books/${id}`, {
       /*  headers: {
@@ -45,6 +54,45 @@ const BookDetails = () => {
       navigate("/my-books");
     }
   };
+
+ const handleComment = async () => {
+  const { value: text } = await Swal.fire({
+    input: "textarea",
+    inputLabel: "Message",
+    inputPlaceholder: "Type your message here...",
+    inputAttributes: {
+      "aria-label": "Type your message here",
+    },
+    showCancelButton: true,
+  });
+
+  if (text) {
+    // Build comment data
+    const formData = {
+      userName: user?.displayName,
+      userPhoto: user?.photoURL,
+      userEmail: user?.email,
+      comment: text,
+      bookId: book._id, // optional if you want to link the comment to a book
+      createdAt: new Date(),
+    };
+
+    try {
+      const result = await postData("/comments", formData);
+
+      if (result?.success) {
+        toast.success("Comment added successfully!");
+         window.location.reload();
+      } else {
+        toast.error("Failed to add comment!");
+      }
+    } catch (error) {
+      console.error(error);
+      toast.error("Something went wrong!");
+    }
+  }
+};
+
 
   if ((loading, response)) {
     return (
@@ -124,6 +172,17 @@ const BookDetails = () => {
           </div>
         </div>
       </div>
+
+      <button
+        onClick={() => handleComment()}
+        className="btn btn-primary mt-5 items-center"
+      >
+        {" "}
+        Add Comment{" "}
+      </button>
+      {data.map((comments) => (
+        <Comment key={comments._id} comments={comments}></Comment>
+      ))}
     </div>
   );
 };
