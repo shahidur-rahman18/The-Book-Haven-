@@ -1,3 +1,24 @@
+# The Book Haven
+## Features :
+#### Public Book Library 
+#### Anyone Visit here 
+#### See book details 
+#### Add book
+#### Share their opinion 
+
+# Technology :
+## Frontend: 
+#### React ,Tailwind,JS some component library 
+## Backend 
+#### Node.js with express.js
+# Database: 
+#### Mongodb
+# Authentication: 
+#### Firebase 
+
+
+
+
 # React + Vite
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
