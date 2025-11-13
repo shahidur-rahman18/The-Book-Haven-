@@ -13,7 +13,7 @@ const MyBooksTable = ({ book, handleDelete }) => {
             <td className="py-4 px-2 w-5/12">
               <div className="flex items-center justify-start gap-3">
                 <div className="avatar">
-                  <div className="mask mask-squircle h-14 w-14">
+                  <div className="mask mask-squircle h-30 w-30">
                     <img
                       src={coverImage}
                       alt="Book Cover"
@@ -33,7 +33,7 @@ const MyBooksTable = ({ book, handleDelete }) => {
 
             {/* COLUMN 2 — DATE (Always Centered) */}
             <td className="py-4 px-2 w-2/12 text-center">
-              <div className="text-xs sm:text-sm opacity-70">date</div>
+              <div className="text-xs sm:text-sm opacity-70"> </div>
             </td>
 
             {/* COLUMN 3 — DELETE (Fixed Button) */}

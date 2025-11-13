@@ -6,12 +6,11 @@ import { FaStar } from "react-icons/fa6";
 import { Link } from "react-router";
 import Swal from "sweetalert2";
 
+
 const MyBooks = () => {
-  // /my-downloads
   const { user } = use(AuthContext);
   const [books, setBooks] = useState([]);
   const [loading, setLoading] = useState(true);
-  // console.log(user)
 
   useEffect(() => {
     fetch(
@@ -51,7 +50,6 @@ const MyBooks = () => {
           .then((res) => res.json())
           .then((data) => {
             console.log(data);
-            // navigate("/all-models");
             setBooks((prevBooks) =>
               prevBooks.filter((book) => book._id !== id)
             );
@@ -69,16 +67,36 @@ const MyBooks = () => {
     });
   };
 
+
+  if (!books || books.length === 0) {
+    return (
+      <div className="flex flex-col justify-center items-center h-screen text-center">
+        <h2 className="text-2xl font-semibold text-gray-700 dark:text-gray-300">
+          📚 No books found!
+        </h2>
+        <p className="text-gray-500 mt-2">
+          You haven’t added any books yet.
+        </p>
+        <Link
+          to="/add-book"
+          className="btn btn-primary mt-4 rounded-full px-6"
+        >
+          Add Your First Book
+        </Link>
+      </div>
+    );
+  }
+
   if (loading) {
-    // ✅ improved loader section
     return (
       <div className="flex justify-center items-center h-screen">
         <PropagateLoader color="#dc143c" size={20} speedMultiplier={1.3} />
       </div>
     );
   }
-  return (
-    <div>
+  return (  
+ 
+    (<div>
       {/* Desktop Table */}
       <div className="hidden bg-base-100 rounded-2xl shadow-2xl md:block">
         {books.map((book) => (
@@ -110,16 +128,10 @@ const MyBooks = () => {
                   <p className="text-sm text-gray-600">
                     by {book.author || "Unknown Author"}
                   </p>
-                  <div className="flex justify-between gap-5 items-center mt-2">
-                    <span className="font-bold">
-                      <FaStar color="#FFD700" /> Date{" "}
-                    </span>
-                  </div>
                 </div>
               </div>
               <div className="card-actions justify-end mt-3">
                 <Link
-                  // to={`/book-details/${book._id}`}
                   onClick={() => handleDelete(book._id)}
                   className="btn btn-primary btn-sm"
                 >
@@ -136,7 +148,9 @@ const MyBooks = () => {
           </div>
         ))}
       </div>
-    </div>
+    </div>)
+
+   
   );
 };
 

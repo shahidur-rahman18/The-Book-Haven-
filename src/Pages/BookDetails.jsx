@@ -1,5 +1,5 @@
 import React, { use, useEffect, useState } from "react";
-import { Link, useNavigate, useParams } from "react-router";
+import { Link,useParams } from "react-router";
 import { AuthContext } from "../context/AuthContext";
 import { PropagateLoader } from "react-spinners";
 import usePost from "../hooks/usePost";
@@ -8,17 +8,16 @@ import { Star } from "lucide-react";
 import useGet from "../hooks/useGet";
 import Swal from "sweetalert2";
 import Comment from "./Comment";
+import Error from "../components/Error";
 
 const BookDetails = () => {
   const { data } = useGet("/comments");
   const { error, response, postData } = usePost();
   const { id } = useParams();
-  const navigate = useNavigate();
   const [book, setBook] = useState({});
   const [loading, setLoading] = useState(true);
   const { user } = use(AuthContext);
-
-  const [refetch, setRefetch] = useState(false);
+  const [refetch] = useState(false);
 
   useEffect(() => {
     fetch(`https://the-book-haven-server-six.vercel.app/books/${id}`, {
@@ -51,7 +50,7 @@ const BookDetails = () => {
         userPhoto: user?.photoURL,
         userEmail: user?.email,
         comment: text,
-        bookId: book._id, 
+        bookId: book._id,
         createdAt: new Date(),
       };
 
@@ -79,7 +78,7 @@ const BookDetails = () => {
     );
   }
 
-  if (error) return <p>Error loading data</p>;
+  if (error) return <Error></Error>;
 
   return (
     <div className="max-w-5xl mx-auto p-4 md:p-6 lg:p-8">
@@ -116,7 +115,8 @@ const BookDetails = () => {
             <p className="text-gray-600 leading-relaxed text-sm md:text-lg">
               {book.summary}
             </p>
-            <Link to='/my-books'
+            <Link
+              to="/my-books"
               className="btn text-white mt-4 rounded-full bg-linear-to-r from-[#662222] to-[#A3485A] "
             >
               Go To My Book

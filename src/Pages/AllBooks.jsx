@@ -12,10 +12,12 @@ import Swal from "sweetalert2";
 import axios from "axios";
 import { AuthContext } from "../context/AuthContext";
 import toast from "react-hot-toast";
+import LottieAnimation from "../components/LottieAnimation";
+import Error from "../components/Error";
+
 
 const AllBooks = () => {
   const { data, loading, error, setUrl } = useGet("/books");
-  const [searchResults, setSearchResults] = useState([]);
   const [ratingFilter, setRatingFilter] = useState("none");
   const { user } = use(AuthContext);
 
@@ -35,33 +37,7 @@ const AllBooks = () => {
   const displayData =
     ratingFilter === "none" ? data : getFilteredAndSortedData();
 
-  const handleSearch = async (e) => {
-    e.preventDefault();
-    const search_text = e.target.search.value;
-
-    if (search_text.trim()) {
-      try {
-        const res = await axios.get(
-          `https://the-book-haven-server-six.vercel.app/search?search=${encodeURIComponent(
-            search_text
-          )}`,
-          {
-            headers: {
-              authorization: `Bearer ${user.accessToken}`,
-            },
-          }
-        );
-
-        setSearchResults(res.data); // store secure search results
-      } catch (err) {
-        console.error(err);
-        toast.error("Unauthorized or failed to fetch data");
-      }
-    } else {
-      // if empty search, show all books again
-      setSearchResults([]);
-    }
-  };
+ 
 
   if (loading) {
     return (
@@ -70,7 +46,7 @@ const AllBooks = () => {
       </div>
     );
   }
-  if (error) return <p>Error loading data</p>;
+  if (error) return <Error></Error>;
   return (
     <div>
       <div className="text-2xl md:text-4xl text-primary text-center font-bold">
@@ -78,35 +54,10 @@ const AllBooks = () => {
         All Books
       </div>
       <p className=" text-center mb-10 ">Explore Books.</p>
+      <LottieAnimation></LottieAnimation>
 
       {/* CHANGE 4: Add filter dropdown section for rating sort */}
       <div className="px-2 mb-6 flex flex-col md:flex-row justify-between items-center gap-4">
-        <form onSubmit={handleSearch} className="flex gap-2 w-full md:w-auto">
-          <label className="input rounded-full flex-1 md:flex-none">
-            <svg
-              className="h-[1em] opacity-50"
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 24 24"
-            >
-              <g
-                strokeLinejoin="round"
-                strokeLinecap="round"
-                strokeWidth="2.5"
-                fill="none"
-                stroke="currentColor"
-              >
-                <circle cx="11" cy="11" r="8"></circle>
-                <path d="m21 21-4.3-4.3"></path>
-              </g>
-            </svg>
-            <input name="search" type="search" placeholder="Search" />
-          </label>
-
-          <button className="btn btn-secondary rounded-full">
-            {loading ? "Searching...." : "Search"}
-          </button>
-        </form>
-
         {/*  Add rating filter dropdown */}
         <select
           value={ratingFilter}

@@ -1,9 +1,8 @@
-import React, { use } from 'react';
+import React from 'react';
 import { AuthContext } from '../context/AuthContext';
 
 const Comment = ({comments}) => {
-    const {comment}= comments
-    const {user} = use(AuthContext)
+    const {comment,userName,userEmail,userPhoto}= comments
     return (
          <div className="p-2 ">
         <div className="max-w-2xl  mx-auto">
@@ -32,7 +31,7 @@ const Comment = ({comments}) => {
 
                   <div className="relative z-10 bg-white  rounded-full shadow-md">
                     <div className="w-20 h-20  rounded-full overflow-hidden  border-white ">
-                        <img className=" w-full h-full flex items-center justify-center" src={user.photoURL} alt="" />
+                        <img className=" w-full h-full flex items-center justify-center" src={userPhoto} alt="" />
                     
                     </div>
                   </div>
@@ -41,23 +40,11 @@ const Comment = ({comments}) => {
                 {/* Name, Title, and Amazon Logo */}
                 <div className="flex-1">
                   <h3 className="text-sm md:text-xl text-primary font-extrabold ">
-                    {user.displayName}
+                    {userName}
                   </h3>
                   <p className="text-secondary  text-xs md:text-base mt-1">
-                    {user.email}
+                    {userEmail}
                   </p>
-
-                  {/* Stars */}
-                  {/*   <div className="flex items-center gap-1 mt-3">
-                    {[...Array(5)].map((_, i) => (
-                      <Star
-                        key={i}
-                        className={`w-5 h-5 md:w-6 md:h-6 ${
-                          i < 4 ? 'text-orange-500 fill-orange-500' : 'text-gray-300'
-                        }`}
-                      />
-                    ))}
-                  </div> */}
                 </div>
               </div>
 

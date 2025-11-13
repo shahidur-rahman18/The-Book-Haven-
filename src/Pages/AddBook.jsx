@@ -5,6 +5,7 @@ import usePost from "../hooks/usePost";
 import { PropagateLoader } from "react-spinners";
 import withReactContent from "sweetalert2-react-content";
 import Swal from "sweetalert2";
+import Error from "../components/Error";
 
 const AddBook = () => {
   const { user } = use(AuthContext);
@@ -56,7 +57,7 @@ const AddBook = () => {
     );
   }
 
-  if (error) return <p>Error loading data</p>;
+  if (error) return <Error></Error>;
 
   return (
     <div className="card border border-gray-200 bg-base-100 w-full max-w-md mx-auto shadow-2xl rounded-2xl">

@@ -12,9 +12,11 @@ import { useRef } from "react";
 import { PropagateLoader } from "react-spinners";
 import TopCategories from "../components/TopCategory";
 import FeaturedAuthors from "../components/FeaturedAuthor";
+import Error from "../components/Error";
+import { format } from "date-fns";
 
 const Home = () => {
-  const { data, loading, error,  } = useGet("/books");
+  const { data, loading, error } = useGet("/books");
   const swiperRef = useRef(null);
 
   const handleMouseEnter = () => {
@@ -29,14 +31,14 @@ const Home = () => {
     }
   }; */
 
-   if (loading) {
+  if (loading) {
     return (
       <div className="flex justify-center items-center h-screen">
         <PropagateLoader color="#842A3B" size={20} speedMultiplier={1.3} />
       </div>
     );
   }
-  if (error) return <p>Error loading data</p>;
+  if (error) return <Error></Error> ;
 
   return (
     <div>
@@ -45,12 +47,18 @@ const Home = () => {
       <motion.h1
         initial={{ y: 80, opacity: 10 }}
         animate={{ y: 2, opacity: 1 }}
-        transition={{ duration:3, delay:0.5 }}
+        transition={{ duration: 3, delay: 0.5 }}
         className="mt-5 text-center text-primary text-2xl md:text-4xl font-extrabold"
       >
         Latest Books
       </motion.h1>
+       <motion.p 
+        initial={{ x: 80, opacity: 10 }}
+        animate={{ x: 2, opacity: 1 }}
+        transition={{ duration: 3, delay: 0.9 }}
 
+        className="text-center" >{format (new Date(),'EEEE , MMMM , YYY ')}</motion.p>
+        
       <div
         className="max-w-7xl px-10 py-10 mx-auto gap-3 mt-5"
         onMouseEnter={handleMouseEnter}

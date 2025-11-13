@@ -28,7 +28,7 @@ const Navbar = () => {
     setTheme(checked ? "dark" : "light");
   };
   return (
-    <div className="bg-gradient-to-r from-[#f7e9ec] to-[#f2e9ff] navbar py-0 min-h-0 z-1 shadow-sm rounded-full glass-card max-w-7xl ">
+    <div className="bg-gradient-to-r from-[#f7e9ec] to-[#f2e9ff] navbar py-0 min-h-0 z-1 shadow-sm rounded-full max-w-7xl ">
       {/* dropdown + navTitle  */}
       <div className="navbar-start ">
         {/* this is for three line menu for small & medium devices  */}
@@ -65,6 +65,11 @@ const Navbar = () => {
                 <SiBookstack color="#A3485A" /> All Books
               </NavLink>
             </li>
+             <li>
+            <NavLink to={"/add-book"}>
+              <ImBoxAdd color="#A3485A" /> Add Book
+            </NavLink>
+          </li>
           </ul>
         </div>
 

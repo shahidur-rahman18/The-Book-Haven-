@@ -7,7 +7,7 @@ import axios from "axios";
 const UpdateBook = () => {
   const { user } = use(AuthContext);
   const navigate = useNavigate();
-  const { id } = useParams(); // 🔹 get book id from URL
+  const { id } = useParams(); // get book id from URL
   const [book, setBook] = useState(null);
   const [loading, setLoading] = useState(true);
 
@@ -68,7 +68,6 @@ const UpdateBook = () => {
       });
   };
 
-  // ✅ Loading UI
   if (loading) {
     return (
       <div className="flex justify-center items-center min-h-screen">
@@ -77,7 +76,6 @@ const UpdateBook = () => {
     );
   }
 
-  // ✅ Form UI
   return (
     <div className="card bg-base-100 w-full max-w-md mx-auto shadow-2xl rounded-2xl">
       <div className="card-body p-6 relative">
